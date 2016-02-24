@@ -1,0 +1,19 @@
+{
+  "name": "bearychat-s3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "s3.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bearyinnovative/bearychat-s3.git"
+  },
+  "author": "loddit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bearyinnovative/bearychat-s3/issues"
+  },
+  "homepage": "https://github.com/bearyinnovative/bearychat-s3#readme"
+}
