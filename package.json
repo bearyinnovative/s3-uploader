@@ -1,5 +1,5 @@
 {
-  "name": "bearychat-s3",
+  "name": "s3-uploader",
   "version": "1.0.0",
   "description": "",
   "main": "s3.js",
