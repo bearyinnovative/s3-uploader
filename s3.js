@@ -129,22 +129,22 @@ function binb2b64(binarray)
   return str;
 }
 //---------------------------End Of Sha1--------------------------------------------------  //
-const ACL_HEADER = "x-amz-acl:public-read";
+var ACL_HEADER = "x-amz-acl:public-read";
 
-let awsKeyId = ''
-let awsKeySecrect = ''
+var awsKeyId = ''
+var awsKeySecrect = ''
 
 function getRandomKeyName() {
   //FIXME: maybe conflict
   var date = new Date();
-  var prefix = `${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
+  var prefix = [date.getFullYear(), date.getMonth(), date.getDate()].join('');
   var rand = Math.random().toString(36).substr(4);
-  return `${prefix}${rand}`
+  return prefix + rand
 }
 
 function getPreSignedPath(method, key, contentType, headers, bucket, s3Path) {
   // reference from https://github.com/basho/riak_cs/blob/develop/src/riak_cs_s3_auth.erl#L158
-  var resource = `/${bucket}/${key}`;
+  var resource = "/" + bucket + "/" + key;
   // the uploader url will be expired after 10 minutes
   var expiresAtInSeconds = Math.ceil(Date.now()/1000) + 10 * 60;
 
@@ -158,7 +158,7 @@ function getPreSignedPath(method, key, contentType, headers, bucket, s3Path) {
 
   var stringToSign = parts.join('\n');
   var sign = b64_hmac_sha1(awsKeySecrect, stringToSign);
-  return `${s3Path}${resource}?AWSAccessKeyId=${awsKeyId}&Expires=${expiresAtInSeconds}&Signature=${encodeURIComponent(sign)}`;
+  return s3Path + resource + "?AWSAccessKeyId=" + awsKeyId + "&Expires=" + expiresAtInSeconds.toString() + "&Signature=" + encodeURIComponent(sign);
 }
 
 function uploader(config) {
@@ -166,7 +166,7 @@ function uploader(config) {
   const bucket = config.bucket
   const S3_PATH = config.s3_path
 
-  uploader.setOption({url: `${S3_PATH}/${bucket}`});
+  uploader.setOption({url: S3_PATH + "/" + bucket});
 
   if (config.auto_start) {
     uploader.bind('FilesAdded', function(up, files) {
@@ -188,7 +188,7 @@ function uploader(config) {
 
     // FIXME: set object acl as public-read for now
     up.setOption({'headers': {"x-amz-acl": "public-read"}});
-    up.setOption({url: `${url}`});
+    up.setOption({url: url});
   });
 
   uploader.bind('FileUploaded', function(up, file, info){
