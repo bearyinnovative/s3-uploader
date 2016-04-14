@@ -187,7 +187,8 @@ function uploader(config) {
     up.settings.content_type = file.type;
 
     // FIXME: set object acl as public-read for now
-    up.setOption({'headers': {"x-amz-acl": "public-read"}});
+    up.setOption({'headers': {"x-amz-acl": "public-read",
+                              "content-disposition": "attachment; filename="+encodeURI(file.name)}});
     up.setOption({url: url});
   });
 
