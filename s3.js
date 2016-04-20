@@ -163,8 +163,8 @@ function getPreSignedPath(method, key, contentType, headers, bucket, s3Path) {
 
 function uploader(config) {
   var uploader = new plupload.Uploader(config);
-  const bucket = config.bucket
-  const S3_PATH = config.s3_path
+  var bucket = config.bucket
+  var S3_PATH = config.s3_path
 
   uploader.setOption({url: S3_PATH + "/" + bucket});
 
