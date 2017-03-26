@@ -186,9 +186,18 @@ function uploader(config) {
     up.settings.method = 'put';
     up.settings.content_type = file.type;
 
+    // NOTE:
+    //
+    // Chrome reuqires proper quoting for content disposition header.
+    //
+    // Reference:
+    //
+    //  - https://bugs.chromium.org/p/chromium/issues/detail?id=103618
+    //  - http://stackoverflow.com/a/14836763
+    var fileName = '"' + encodeURI(file.name) + '"';
     // FIXME: set object acl as public-read for now
     up.setOption({'headers': {"x-amz-acl": "public-read",
-                              "content-disposition": "attachment; filename="+encodeURI(file.name)}});
+                              "content-disposition": "attachment; filename="+fileName}});
     up.setOption({url: url});
   });
 
